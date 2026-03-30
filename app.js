@@ -76,4 +76,84 @@ document.addEventListener('DOMContentLoaded', function() {
         item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         observer.observe(item);
     });
+
+    // Contact Form Functionality
+    const contactForm = document.getElementById('contactForm');
+    const formMessage = document.getElementById('formMessage');
+
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(contactForm);
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const subject = formData.get('subject');
+            const message = formData.get('message');
+            
+            // Basic validation
+            if (!name || !email || !subject || !message) {
+                showFormMessage('Please fill in all fields', 'error');
+                return;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showFormMessage('Please enter a valid email address', 'error');
+                return;
+            }
+            
+            // Simulate form submission (in real implementation, this would send to a server)
+            const submitBtn = contactForm.querySelector('.submit-btn');
+            const originalText = submitBtn.querySelector('span').textContent;
+            
+            // Show loading state
+            submitBtn.querySelector('span').textContent = 'Sending...';
+            submitBtn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Reset button
+                submitBtn.querySelector('span').textContent = originalText;
+                submitBtn.disabled = false;
+                
+                // Show success message
+                showFormMessage('Thank you for your message! I\'ll get back to you soon.', 'success');
+                
+                // Reset form
+                contactForm.reset();
+                
+                // Log the form data (in real implementation, this would be sent to a server)
+                console.log('Form submitted:', { name, email, subject, message });
+            }, 2000);
+        });
+    }
+
+    function showFormMessage(message, type) {
+        if (formMessage) {
+            formMessage.textContent = message;
+            formMessage.className = `form-message ${type} show`;
+            
+            // Hide message after 5 seconds
+            setTimeout(() => {
+                formMessage.classList.remove('show');
+            }, 5000);
+        }
+    }
+
+    // Add input animations
+    const formInputs = document.querySelectorAll('.form-group input, .form-group textarea');
+    formInputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            this.parentElement.classList.add('focused');
+        });
+        
+        input.addEventListener('blur', function() {
+            if (!this.value) {
+                this.parentElement.classList.remove('focused');
+            }
+        });
+    });
 });
