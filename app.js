@@ -38,11 +38,14 @@ document.addEventListener('DOMContentLoaded', function() {
             const targetSection = document.querySelector(targetId);
             
             if (targetSection) {
-                const offsetTop = targetSection.offsetTop - 80;
+                const headerHeight = document.querySelector('header').offsetHeight;
+                const offsetTop = targetSection.offsetTop - headerHeight - 20;
                 window.scrollTo({
                     top: offsetTop,
                     behavior: 'smooth'
                 });
+            } else {
+                console.log('Section not found:', targetId);
             }
         });
     });

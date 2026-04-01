@@ -941,6 +941,40 @@ nav ul li a:hover {
     box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
 }
 
+.blog-section {
+    width: 100%;
+    max-width: 1200px;
+    padding: 80px 50px;
+    text-align: center;
+}
+
+.blog-title {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.blog-subtitle {
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+    opacity: 0.8;
+}
+
+.blog-placeholder {
+    padding: 60px 20px;
+    background: rgba(102, 126, 234, 0.1);
+    border-radius: 15px;
+    border: 1px solid rgba(102, 126, 234, 0.3);
+}
+
+.blog-placeholder p {
+    font-size: 1.1rem;
+    opacity: 0.7;
+}
+
 .btn-glow {
     position: absolute;
     top: 50%;
