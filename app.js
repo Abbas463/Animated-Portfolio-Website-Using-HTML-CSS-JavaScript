@@ -1,4 +1,51 @@
 document.addEventListener('DOMContentLoaded', function() {
+    const loadingScreen = document.querySelector('.loading-screen');
+    const loadingContent = document.querySelector('.loading-content');
+    const container = document.querySelector('.container');
+    
+    const loadingSequence = [
+        { text: 'Loading', class: 'loading-text', duration: 2000 },
+        { text: 'Have a fun', class: 'fun-text', duration: 1500 },
+        { text: "Let's open", class: 'open-text', duration: 1500 },
+        { text: '3', class: 'countdown-text', duration: 800 },
+        { text: '2', class: 'countdown-text', duration: 800 },
+        { text: '1', class: 'countdown-text', duration: 800 },
+        { text: 'OPEN', class: 'open-text', duration: 1500 }
+    ];
+    
+    let currentIndex = 0;
+    
+    function updateLoadingText() {
+        if (currentIndex < loadingSequence.length) {
+            const sequence = loadingSequence[currentIndex];
+            loadingContent.innerHTML = `<div class="${sequence.class}">${sequence.text}</div>`;
+            
+            currentIndex++;
+            setTimeout(updateLoadingText, sequence.duration);
+        } else {
+            setTimeout(() => {
+                loadingScreen.classList.add('fade-out');
+                container.classList.add('loaded');
+                
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                    animateSections();
+                }, 800);
+            }, 500);
+        }
+    }
+    
+    function animateSections() {
+        const sections = document.querySelectorAll('section');
+        sections.forEach((section, index) => {
+            setTimeout(() => {
+                section.classList.add('animate');
+            }, index * 300);
+        });
+    }
+    
+    updateLoadingText();
+    
     const refreshName = document.getElementById('refresh-name');
     if (refreshName) {
         refreshName.addEventListener('click', function() {
@@ -137,4 +184,33 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+    
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const parallax = document.querySelector('.back-vid');
+        if (parallax) {
+            parallax.style.transform = `translateY(${scrolled * 0.5}px)`;
+        }
+    });
+    
+    const mouseMoveEffect = (e) => {
+        const cards = document.querySelectorAll('.portfolio-item, .blog-post');
+        cards.forEach(card => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = (y - centerY) / 20;
+            const rotateY = (centerX - x) / 20;
+            
+            if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
+            }
+        });
+    };
+    
+    document.addEventListener('mousemove', mouseMoveEffect);
 });
